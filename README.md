@@ -1,1 +1,1 @@
-# zadanie24.4
+24.4 funkcja formatująca datę

@@ -1,18 +1,41 @@
 const formatDate = (timeInSeconds) => {
-	if (!timeInSeconds) {
-		return '0s';
-	};
-	if (timeInSeconds < 60) {
-		return `${timeInSeconds}s`;
-	};
-	const hours = Math.floor(timeInSeconds / 3600);
-	let minutes = Math.floor(timeInSeconds / 60);
-	const seconds = timeInSeconds % 60;
-	if (timeInSeconds > 3600) {
-		minutes = Math.floor(Math.floor(timeInSeconds % 3600) / 60);
-	};
-
-	return `${hours > 0 ? hours + 'h' : ''}${hours > 0 && (minutes > 0 || seconds > 0) ? ' ' : ''}${minutes > 0 ? minutes + 'm' : '' }${(hours > 0 || minutes > 0 ) && seconds > 0 ? minutes > 0 ? ' ' : '' : ''}${seconds > 0 ? seconds + 's' : ''}`;
+  let s = `${timeInSeconds}`;
+  let m = 0;
+  let h = 0;
+  
+  if (s < 60) {
+    return s + 's';
+  }
+  else if (s < 3600) {
+	m = Math.floor(s/60);
+	newS = s - 60*m;
+	if (newS === 0) {
+	  return m+'m'; 
+	}
+	else {
+      return m+'m '+newS+'s';
+    }
+  }
+  else if (s >= 3600) {
+    h = Math.floor(s/3600);
+    m = Math.floor((s - 3600*h)/60);
+    newS = s - (3600*h+ 60*m);
+    if (newS === 0 && m === 0) {
+      return h + 'h';
+    }
+    else if (newS === 0) {
+      return h + 'h ' + m+ 'm';
+    }
+    else if (m === 0) {
+      return h + 'h ' + newS+ 's';
+    }
+    else {
+      return h + 'h ' + m+ 'm '+ newS + 's';
+    }
+  }
+  else {
+    return '0s';
+  }
 }
 
 module.exports = formatDate;
